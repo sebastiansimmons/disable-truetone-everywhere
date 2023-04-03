@@ -1,5 +1,5 @@
 #!/bin/bash
-# falsetone.sh
+# falsetone.sh - 2023-04-03 Sebastian Simmons
 # Disables TrueTone on Macs with ambient light sensors.
 # TrueTone affects the color temperature of the display based on the ambient light.
 # This script disables TrueTone, which is important for color-critical work.
