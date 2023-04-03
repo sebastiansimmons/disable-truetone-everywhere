@@ -25,4 +25,4 @@ echo "Killing cfprefsd and corebrightnessd..."
 sudo killall cfprefsd
 sudo killall corebrightnessd
 
-return 0
+exit 0
