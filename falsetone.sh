@@ -18,7 +18,15 @@ currentUserUID="CBUser-"$currentUserUID                          # Append the pr
 if test -f "$coreBrightness"; then
     echo "Disabling TrueTone for ${currentUser}..."
 
-    /usr/libexec/PlistBuddy -c "Set :${currentUserUID}:CBColorAdaptationEnabled 0" $coreBrightness
+    # Add entry if it doesn't exist
+    /usr/libexec/PlistBuddy -c "Add :${currentUserUID}:CBColorAdaptationEnabled 0" $coreBrightness
+    exitCode=$? # Get exit code of last command
+
+    # If entry already exists, overwrite it
+    if [ $exitCode -ne 0 ]; then
+        echo "Entry already exists. Overwriting..."
+        /usr/libexec/PlistBuddy -c "Set :${currentUserUID}:CBColorAdaptationEnabled 0" $coreBrightness
+    fi
 
     echo "CBColorAdaptationEnabled for $currentUserUID set to 0."
 
@@ -32,6 +40,5 @@ else
     echo "Exiting..."
     exit 2
 fi
-
 
 exit 0
