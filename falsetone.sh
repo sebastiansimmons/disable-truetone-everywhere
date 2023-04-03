@@ -25,7 +25,7 @@ if test -f "$coreBrightness"; then
     # If entry already exists, overwrite it
     if [ $exitCode -ne 0 ]; then
         echo "Entry already exists. Overwriting..."
-        /usr/libexec/PlistBuddy -c "Set :${currentUserUID}:CBColorAdaptationEnabled bool 0" $coreBrightness
+        /usr/libexec/PlistBuddy -c "Set :${currentUserUID}:CBColorAdaptationEnabled 0" $coreBrightness
     fi
 
     echo "CBColorAdaptationEnabled for $currentUserUID set to 0."
