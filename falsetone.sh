@@ -1,5 +1,5 @@
 #!/bin/bash
-# falsetone.sh - 2023-04-03 Sebastian Simmons
+# falsetone.sh
 # Disables TrueTone on Macs with ambient light sensors.
 # TrueTone affects the color temperature of the display based on the ambient light.
 # This script disables TrueTone, which is important for color-critical work.
@@ -14,15 +14,24 @@ currentUserUID=$(dscl . -read /Users/$currentUser/ GeneratedUID) # Get the Gener
 currentUserUID=$(echo $currentUserUID | cut -d' ' -f2)           # Remove the "GeneratedUID: " part
 currentUserUID="CBUser-"$currentUserUID                          # Append the prefix
 
-echo "Disabling TrueTone for ${currentUser}..."
+# Check if com.apple.CoreBrightness.plist exists
+if test -f "$coreBrightness"; then
+    echo "Disabling TrueTone for ${currentUser}..."
 
-/usr/libexec/PlistBuddy -c "Set :${currentUserUID}:CBColorAdaptationEnabled 0" $coreBrightness
+    /usr/libexec/PlistBuddy -c "Set :${currentUserUID}:CBColorAdaptationEnabled 0" $coreBrightness
 
-echo "CBColorAdaptationEnabled for $currentUserUID set to 0."
+    echo "CBColorAdaptationEnabled for $currentUserUID set to 0."
 
-# Kill cfprefsd and corebrightnessd to apply changes
-echo "Killing cfprefsd and corebrightnessd..."
-sudo killall cfprefsd
-sudo killall corebrightnessd
+    # Kill cfprefsd and corebrightnessd to apply changes
+    echo "Killing cfprefsd and corebrightnessd..."
+    sudo killall cfprefsd
+    sudo killall corebrightnessd
+else
+    echo "$coreBrightness does not exist."
+    echo "System does not have an ambient light sensor and therefore has no TrueTone setting."
+    echo "Exiting..."
+    exit 2
+fi
+
 
 exit 0
