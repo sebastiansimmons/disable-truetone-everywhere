@@ -19,13 +19,13 @@ if test -f "$coreBrightness"; then
     echo "Disabling TrueTone for ${currentUser}..."
 
     # Add entry if it doesn't exist
-    /usr/libexec/PlistBuddy -c "Add :${currentUserUID}:CBColorAdaptationEnabled 0" $coreBrightness
+    /usr/libexec/PlistBuddy -c "Add :${currentUserUID}:CBColorAdaptationEnabled bool 0" $coreBrightness
     exitCode=$? # Get exit code of last command
 
     # If entry already exists, overwrite it
     if [ $exitCode -ne 0 ]; then
         echo "Entry already exists. Overwriting..."
-        /usr/libexec/PlistBuddy -c "Set :${currentUserUID}:CBColorAdaptationEnabled 0" $coreBrightness
+        /usr/libexec/PlistBuddy -c "Set :${currentUserUID}:CBColorAdaptationEnabled bool 0" $coreBrightness
     fi
 
     echo "CBColorAdaptationEnabled for $currentUserUID set to 0."
@@ -36,7 +36,7 @@ if test -f "$coreBrightness"; then
     sudo killall corebrightnessd
 else
     echo "$coreBrightness does not exist."
-    echo "System does not have an ambient light sensor and therefore has no TrueTone setting."
+    echo "System does not have an ambient light sensor and therefore has no TrueTone setting (unless someone plugs in an XDR or Apple Studio Display)."
     echo "Exiting..."
     exit 2
 fi
