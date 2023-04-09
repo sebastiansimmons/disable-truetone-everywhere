@@ -18,7 +18,7 @@ currentUserUID="CBUser-"$currentUserUID                          # Append the pr
 if test -f "$coreBrightness"; then
     echo "Disabling TrueTone for ${currentUser}..."
 
-    # Add entry if it doesn't exist
+    # Add entry if TrueTone entry doesn't exist in CoreBrightness plist
     /usr/libexec/PlistBuddy -c "Add :${currentUserUID}:CBColorAdaptationEnabled bool 0" $coreBrightness
     exitCode=$? # Get exit code of last command
 
