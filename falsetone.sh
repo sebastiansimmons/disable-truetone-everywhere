@@ -37,6 +37,7 @@ if test -f "$coreBrightness"; then
 else
     echo "$coreBrightness does not exist."
     echo "System does not have an ambient light sensor and therefore has no TrueTone setting (unless someone plugs in an XDR or Apple Studio Display)."
+    # If you want to ensure this setting stays off, add `touch $coreBrightness` before this whole if block
     echo "Exiting..."
     exit 2
 fi
